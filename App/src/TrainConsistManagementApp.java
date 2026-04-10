@@ -1,44 +1,78 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * ============================================================
+ * MAIN CLASS - TrainConsistManagementApp
+ * ============================================================
+ *
+ * UC7: Sort Bogies by Capacity (Comparator)
+ */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC5 - Preserve Insertion Order of Bogies\n");
+        System.out.println("UC7 - Sort Bogies by Capacity (Comparator)\n");
 
-        Train train = new Train();
+        // Create list of passenger bogies
+        List<PassengerBogie> bogies = new ArrayList<>();
 
-        // Adding bogies (including duplicates)
-        train.addBogie("Engine");
-        train.addBogie("Sleeper");
-        train.addBogie("Cargo");
-        train.addBogie("Guard");
-        train.addBogie("Sleeper"); // duplicate (ignored)
+        bogies.add(new PassengerBogie("Sleeper", 72));
+        bogies.add(new PassengerBogie("AC Chair", 56));
+        bogies.add(new PassengerBogie("First Class", 24));
+        bogies.add(new PassengerBogie("General", 90));
 
-        System.out.println("Final Train Formation:");
-        System.out.println(train.getFormation());
+        // Before Sorting
+        System.out.println("Before Sorting:");
+        for (PassengerBogie b : bogies) {
+            System.out.println(b.getType() + " -> " + b.getCapacity());
+        }
 
-        System.out.println("\nNote:");
-        System.out.println("LinkedHashSet preserves insertion order and removes duplicates automatically.");
+        // Sort using Comparator (ascending order)
+        Collections.sort(bogies, new CapacityComparator());
 
-        System.out.println("\nUC5 formation setup completed ...");
+        // After Sorting
+        System.out.println("\nAfter Sorting by Capacity:");
+        for (PassengerBogie b : bogies) {
+            System.out.println(b.getType() + " -> " + b.getCapacity());
+        }
+
+        System.out.println("\nUC7 sorting completed ...");
     }
 }
 
-class Train {
+/**
+ * ============================================================
+ * CLASS - PassengerBogie
+ * ============================================================
+ */
+class PassengerBogie {
 
-    private Set<String> formation;
+    private String type;
+    private int capacity;
 
-    public Train() {
-        formation = new LinkedHashSet<>();
+    public PassengerBogie(String type, int capacity) {
+        this.type = type;
+        this.capacity = capacity;
     }
 
-    public void addBogie(String bogie) {
-        formation.add(bogie); // maintains order + avoids duplicates
+    public String getType() {
+        return type;
     }
 
-    public Set<String> getFormation() {
-        return formation;
+    public int getCapacity() {
+        return capacity;
+    }
+}
+
+/**
+ * ============================================================
+ * CLASS - CapacityComparator
+ * ============================================================
+ */
+class CapacityComparator implements Comparator<PassengerBogie> {
+
+    @Override
+    public int compare(PassengerBogie b1, PassengerBogie b2) {
+        return b1.getCapacity() - b2.getCapacity(); // ascending
     }
 }
