@@ -1,78 +1,77 @@
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * ============================================================
  * MAIN CLASS - TrainConsistManagementApp
  * ============================================================
  *
- * UC7: Sort Bogies by Capacity (Comparator)
+ * UC4: Maintain Ordered Bogie Consist
  */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC7 - Sort Bogies by Capacity (Comparator)\n");
+        System.out.println("UC4 - Maintain Ordered Bogie Consist\n");
 
-        // Create list of passenger bogies
-        List<PassengerBogie> bogies = new ArrayList<>();
+        Train train = new Train();
 
-        bogies.add(new PassengerBogie("Sleeper", 72));
-        bogies.add(new PassengerBogie("AC Chair", 56));
-        bogies.add(new PassengerBogie("First Class", 24));
-        bogies.add(new PassengerBogie("General", 90));
+        // Initial consist
+        train.addBogie("Engine");
+        train.addBogie("Sleeper");
+        train.addBogie("AC");
+        train.addBogie("Cargo");
+        train.addBogie("Guard");
 
-        // Before Sorting
-        System.out.println("Before Sorting:");
-        for (PassengerBogie b : bogies) {
-            System.out.println(b.getType() + " -> " + b.getCapacity());
-        }
+        System.out.println("Initial Train Consist:");
+        System.out.println(train.getBogies());
 
-        // Sort using Comparator (ascending order)
-        Collections.sort(bogies, new CapacityComparator());
+        // Insert at position 2
+        train.insertBogieAt(2, "Pantry Car");
 
-        // After Sorting
-        System.out.println("\nAfter Sorting by Capacity:");
-        for (PassengerBogie b : bogies) {
-            System.out.println(b.getType() + " -> " + b.getCapacity());
-        }
+        System.out.println("\nAfter Inserting 'Pantry Car' at position 2:");
+        System.out.println(train.getBogies());
 
-        System.out.println("\nUC7 sorting completed ...");
+        // Remove first and last
+        train.removeFirstBogie();
+        train.removeLastBogie();
+
+        System.out.println("\nAfter Removing First and Last Bogie:");
+        System.out.println(train.getBogies());
+
+        System.out.println("\nUC4 ordered consist operations completed ...");
     }
 }
 
 /**
  * ============================================================
- * CLASS - PassengerBogie
+ * CLASS - Train
  * ============================================================
  */
-class PassengerBogie {
+class Train {
 
-    private String type;
-    private int capacity;
+    private LinkedList<String> bogies;
 
-    public PassengerBogie(String type, int capacity) {
-        this.type = type;
-        this.capacity = capacity;
+    public Train() {
+        bogies = new LinkedList<>();
     }
 
-    public String getType() {
-        return type;
+    public void addBogie(String bogie) {
+        bogies.add(bogie);
     }
 
-    public int getCapacity() {
-        return capacity;
+    public void insertBogieAt(int index, String bogie) {
+        bogies.add(index, bogie);
     }
-}
 
-/**
- * ============================================================
- * CLASS - CapacityComparator
- * ============================================================
- */
-class CapacityComparator implements Comparator<PassengerBogie> {
+    public void removeFirstBogie() {
+        bogies.removeFirst();
+    }
 
-    @Override
-    public int compare(PassengerBogie b1, PassengerBogie b2) {
-        return b1.getCapacity() - b2.getCapacity(); // ascending
+    public void removeLastBogie() {
+        bogies.removeLast();
+    }
+
+    public LinkedList<String> getBogies() {
+        return bogies;
     }
 }
