@@ -1,77 +1,58 @@
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ============================================================
  * MAIN CLASS - TrainConsistManagementApp
  * ============================================================
  *
- * UC4: Maintain Ordered Bogie Consist
+ * UC8: Filter Passenger Bogies Using Streams
  */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC4 - Maintain Ordered Bogie Consist\n");
+        System.out.println("UC8 - Filter Passenger Bogies Using Streams\n");
 
-        Train train = new Train();
+        List<PassengerBogie> bogies = new ArrayList<>();
 
-        // Initial consist
-        train.addBogie("Engine");
-        train.addBogie("Sleeper");
-        train.addBogie("AC");
-        train.addBogie("Cargo");
-        train.addBogie("Guard");
+        bogies.add(new PassengerBogie("Sleeper", 72));
+        bogies.add(new PassengerBogie("AC Chair", 56));
+        bogies.add(new PassengerBogie("First Class", 24));
+        bogies.add(new PassengerBogie("General", 90));
 
-        System.out.println("Initial Train Consist:");
-        System.out.println(train.getBogies());
+        System.out.println("ALL Bogies:");
+        bogies.forEach(b ->
+                System.out.println(b.getType() + " -> " + b.getCapacity()));
 
-        // Insert at position 2
-        train.insertBogieAt(2, "Pantry Car");
+        // Filter using Streams (capacity > 60)
+        List<PassengerBogie> filtered = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
 
-        System.out.println("\nAfter Inserting 'Pantry Car' at position 2:");
-        System.out.println(train.getBogies());
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        filtered.forEach(b ->
+                System.out.println(b.getType() + " -> " + b.getCapacity()));
 
-        // Remove first and last
-        train.removeFirstBogie();
-        train.removeLastBogie();
-
-        System.out.println("\nAfter Removing First and Last Bogie:");
-        System.out.println(train.getBogies());
-
-        System.out.println("\nUC4 ordered consist operations completed ...");
+        System.out.println("\nUC8 filtering completed ...");
     }
 }
 
 /**
  * ============================================================
- * CLASS - Train
+ * CLASS - PassengerBogie
  * ============================================================
  */
-class Train {
+class PassengerBogie {
 
-    private LinkedList<String> bogies;
+    private String type;
+    private int capacity;
 
-    public Train() {
-        bogies = new LinkedList<>();
+    public PassengerBogie(String type, int capacity) {
+        this.type = type;
+        this.capacity = capacity;
     }
 
-    public void addBogie(String bogie) {
-        bogies.add(bogie);
-    }
-
-    public void insertBogieAt(int index, String bogie) {
-        bogies.add(index, bogie);
-    }
-
-    public void removeFirstBogie() {
-        bogies.removeFirst();
-    }
-
-    public void removeLastBogie() {
-        bogies.removeLast();
-    }
-
-    public LinkedList<String> getBogies() {
-        return bogies;
-    }
+    public String getType() { return type; }
+    public int getCapacity() { return capacity; }
 }
