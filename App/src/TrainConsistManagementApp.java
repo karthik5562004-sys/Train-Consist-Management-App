@@ -1,37 +1,41 @@
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * ============================================================
- * MAIN CLASS - TrainConsistManagementApp
- * ============================================================
- *
- * UC1: Initialize Train and Display Consist Summary
- */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
+        System.out.println("UC2 - Add Passenger Bogies to Train\n");
 
-        // Initialize train
         Train train = new Train(8);
 
-        System.out.println("Train initialized successfully...");
-        System.out.println("Initial Bogie Count: " + train.getMaxCapacity());
-        System.out.println("Current Train Consist: " + train.getBogies());
+        // Add bogies
+        train.addBogie("Sleeper");
+        train.addBogie("AC Chair");
+        train.addBogie("First Class");
 
-        System.out.println("System ready for operations...");
+        // After adding
+        System.out.println("After Adding Bogies:");
+        System.out.println("Passenger Bogies : " + train.getBogies());
+
+        // Remove bogie
+        train.removeBogie("AC Chair");
+
+        System.out.println("\nAfter Removing \"AC Chair':");
+        System.out.println("Passenger Bogies : " + train.getBogies());
+
+        // Check existence
+        System.out.println("\nChecking if 'Sleeper' exists:");
+        System.out.println("Contains Sleeper? : " + train.containsBogie("Sleeper"));
+
+        // Final consist
+        System.out.println("\nFinal Train Passenger Consist:");
+        System.out.println(train.getBogies());
+
+        System.out.println("\nUC2 operations completed successfully ...");
     }
 }
 
-/**
- * ============================================================
- * CLASS - Train
- * ============================================================
- *
- * Represents the train consist
- */
 class Train {
 
     private int maxCapacity;
@@ -42,8 +46,18 @@ class Train {
         this.bogies = new ArrayList<>();
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
+    public void addBogie(String bogieType) {
+        if (bogies.size() < maxCapacity) {
+            bogies.add(bogieType);
+        }
+    }
+
+    public void removeBogie(String bogieType) {
+        bogies.remove(bogieType);
+    }
+
+    public boolean containsBogie(String bogieType) {
+        return bogies.contains(bogieType);
     }
 
     public List<String> getBogies() {
