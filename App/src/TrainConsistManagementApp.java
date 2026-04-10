@@ -1,66 +1,45 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC2 - Add Passenger Bogies to Train\n");
+        System.out.println("UC3 - Track Unique Bogie IDs\n");
 
-        Train train = new Train(8);
+        Train train = new Train();
 
-        // Add bogies
-        train.addBogie("Sleeper");
-        train.addBogie("AC Chair");
-        train.addBogie("First Class");
+        // Adding bogie IDs (including duplicates)
+        train.addBogieId("BG101");
+        train.addBogieId("BG102");
+        train.addBogieId("BG103");
+        train.addBogieId("BG104");
+        train.addBogieId("BG101"); // duplicate
+        train.addBogieId("BG102"); // duplicate
 
-        // After adding
-        System.out.println("After Adding Bogies:");
-        System.out.println("Passenger Bogies : " + train.getBogies());
+        System.out.println("Bogie IDs After Insertion:");
+        System.out.println(train.getBogieIds());
 
-        // Remove bogie
-        train.removeBogie("AC Chair");
+        System.out.println("\nNote:");
+        System.out.println("Duplicates are automatically ignored by HashSet.");
 
-        System.out.println("\nAfter Removing \"AC Chair':");
-        System.out.println("Passenger Bogies : " + train.getBogies());
-
-        // Check existence
-        System.out.println("\nChecking if 'Sleeper' exists:");
-        System.out.println("Contains Sleeper? : " + train.containsBogie("Sleeper"));
-
-        // Final consist
-        System.out.println("\nFinal Train Passenger Consist:");
-        System.out.println(train.getBogies());
-
-        System.out.println("\nUC2 operations completed successfully ...");
+        System.out.println("\nUC3 uniqueness validation completed ...");
     }
 }
 
 class Train {
 
-    private int maxCapacity;
-    private List<String> bogies;
+    private Set<String> bogieIds;
 
-    public Train(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-        this.bogies = new ArrayList<>();
+    public Train() {
+        bogieIds = new HashSet<>();
     }
 
-    public void addBogie(String bogieType) {
-        if (bogies.size() < maxCapacity) {
-            bogies.add(bogieType);
-        }
+    public void addBogieId(String id) {
+        bogieIds.add(id); // HashSet ignores duplicates automatically
     }
 
-    public void removeBogie(String bogieType) {
-        bogies.remove(bogieType);
-    }
-
-    public boolean containsBogie(String bogieType) {
-        return bogies.contains(bogieType);
-    }
-
-    public List<String> getBogies() {
-        return bogies;
+    public Set<String> getBogieIds() {
+        return bogieIds;
     }
 }
