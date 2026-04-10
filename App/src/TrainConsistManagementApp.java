@@ -1,16 +1,16 @@
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 /**
  * ============================================================
- * UC9 - Group Bogies by Type (Collectors.groupingBy)
+ * UC10 - Count Total Seats in Train (Stream reduce)
  * ============================================================
  */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC9 - Group Bogies by Type\n");
+        System.out.println("UC10 - Count Total Seats in Train\n");
 
         List<PassengerBogie> bogies = new ArrayList<>();
 
@@ -18,26 +18,19 @@ public class TrainConsistManagementApp {
         bogies.add(new PassengerBogie("AC Chair", 56));
         bogies.add(new PassengerBogie("First Class", 24));
         bogies.add(new PassengerBogie("Sleeper", 70));
-        bogies.add(new PassengerBogie("AC Chair", 60));
 
-        System.out.println("ALL Bogies:");
+        System.out.println("Bogies in Train:");
         bogies.forEach(b ->
                 System.out.println(b.getType() + " -> " + b.getCapacity()));
 
-        // ✅ GROUPING USING STREAMS
-        Map<String, List<PassengerBogie>> grouped =
-                bogies.stream()
-                        .collect(Collectors.groupingBy(PassengerBogie::getType));
+        // ✅ map() + reduce()
+        int totalSeats = bogies.stream()
+                .map(b -> b.getCapacity())   // extract capacity
+                .reduce(0, Integer::sum);   // aggregate sum
 
-        System.out.println("\nGrouped Bogies:");
+        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
 
-        grouped.forEach((type, list) -> {
-            System.out.println(type + " :");
-            list.forEach(b ->
-                    System.out.println("   " + b.getCapacity()));
-        });
-
-        System.out.println("\nUC9 grouping completed ...");
+        System.out.println("\nUC10 aggregation completed ...");
     }
 }
 
