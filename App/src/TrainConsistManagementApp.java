@@ -1,45 +1,44 @@
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC3 - Track Unique Bogie IDs\n");
+        System.out.println("UC5 - Preserve Insertion Order of Bogies\n");
 
         Train train = new Train();
 
-        // Adding bogie IDs (including duplicates)
-        train.addBogieId("BG101");
-        train.addBogieId("BG102");
-        train.addBogieId("BG103");
-        train.addBogieId("BG104");
-        train.addBogieId("BG101"); // duplicate
-        train.addBogieId("BG102"); // duplicate
+        // Adding bogies (including duplicates)
+        train.addBogie("Engine");
+        train.addBogie("Sleeper");
+        train.addBogie("Cargo");
+        train.addBogie("Guard");
+        train.addBogie("Sleeper"); // duplicate (ignored)
 
-        System.out.println("Bogie IDs After Insertion:");
-        System.out.println(train.getBogieIds());
+        System.out.println("Final Train Formation:");
+        System.out.println(train.getFormation());
 
         System.out.println("\nNote:");
-        System.out.println("Duplicates are automatically ignored by HashSet.");
+        System.out.println("LinkedHashSet preserves insertion order and removes duplicates automatically.");
 
-        System.out.println("\nUC3 uniqueness validation completed ...");
+        System.out.println("\nUC5 formation setup completed ...");
     }
 }
 
 class Train {
 
-    private Set<String> bogieIds;
+    private Set<String> formation;
 
     public Train() {
-        bogieIds = new HashSet<>();
+        formation = new LinkedHashSet<>();
     }
 
-    public void addBogieId(String id) {
-        bogieIds.add(id); // HashSet ignores duplicates automatically
+    public void addBogie(String bogie) {
+        formation.add(bogie); // maintains order + avoids duplicates
     }
 
-    public Set<String> getBogieIds() {
-        return bogieIds;
+    public Set<String> getFormation() {
+        return formation;
     }
 }
