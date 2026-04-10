@@ -3,38 +3,41 @@ import java.util.stream.Collectors;
 
 /**
  * ============================================================
- * MAIN CLASS - TrainConsistManagementApp
+ * UC9 - Group Bogies by Type (Collectors.groupingBy)
  * ============================================================
- *
- * UC8: Filter Passenger Bogies Using Streams
  */
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC8 - Filter Passenger Bogies Using Streams\n");
+        System.out.println("UC9 - Group Bogies by Type\n");
 
         List<PassengerBogie> bogies = new ArrayList<>();
 
         bogies.add(new PassengerBogie("Sleeper", 72));
         bogies.add(new PassengerBogie("AC Chair", 56));
         bogies.add(new PassengerBogie("First Class", 24));
-        bogies.add(new PassengerBogie("General", 90));
+        bogies.add(new PassengerBogie("Sleeper", 70));
+        bogies.add(new PassengerBogie("AC Chair", 60));
 
         System.out.println("ALL Bogies:");
         bogies.forEach(b ->
                 System.out.println(b.getType() + " -> " + b.getCapacity()));
 
-        // Filter using Streams (capacity > 60)
-        List<PassengerBogie> filtered = bogies.stream()
-                .filter(b -> b.getCapacity() > 60)
-                .collect(Collectors.toList());
+        // ✅ GROUPING USING STREAMS
+        Map<String, List<PassengerBogie>> grouped =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(PassengerBogie::getType));
 
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
-        filtered.forEach(b ->
-                System.out.println(b.getType() + " -> " + b.getCapacity()));
+        System.out.println("\nGrouped Bogies:");
 
-        System.out.println("\nUC8 filtering completed ...");
+        grouped.forEach((type, list) -> {
+            System.out.println(type + " :");
+            list.forEach(b ->
+                    System.out.println("   " + b.getCapacity()));
+        });
+
+        System.out.println("\nUC9 grouping completed ...");
     }
 }
 
